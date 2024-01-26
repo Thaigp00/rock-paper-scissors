@@ -35,9 +35,9 @@ function playRound(playerChoice = getPlayerChoice(), computerChoice = getCompute
 
 
 function game() {
-    const BEST_OF = 5;
+    const BEST_OF = 10;
 
-    console.log("BEST-OF-FIVE!");
+    console.log(`BEST-OF-${BEST_OF}`);
     console.log("");
 
     let playerScore = 0,
@@ -56,7 +56,7 @@ function game() {
 
         console.log(`Player ${playerScore} x ${computerScore} Computer`);
     }
-    
+
     if (playerScore === BEST_OF) {
         return "YOU BEAT THE COMPUTER! CONGRATULATIONS!!!";
     }
