@@ -1,21 +1,48 @@
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
 body {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     height: 100vh;
-    background-color: #353535;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #FFF;
 }
 
-h1 {
-    margin: auto;
-    border-bottom: 1rem solid #FFF;
-    border-radius: 1rem;
-    text-align: center;
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 8rem;
-    font-weight: 900;
+a {
+    text-decoration: none;
+}
+
+.navbar,
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    height: 15vh;
+    font-weight: bold;
     color: #FFF;
+    background-color: #000;
+}
+
+.navbar {
+    font-size: 3rem;
+}
+
+.wrapper {
+    flex: 1;
+}
+
+.wrapper > * {
+    border: 1px solid red;
+}
+
+.social-media {
+    width: 2rem;
+    height: auto;
 }
