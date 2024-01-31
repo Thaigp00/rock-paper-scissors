@@ -74,10 +74,10 @@ function game() {
             }
         }
 
-        const playerDisplayScore = document.querySelector("#player-display > h4");
+        const playerDisplayScore = document.querySelector("#player-score");
         playerDisplayScore.textContent = `Player: ${playerScore}`;
-        const computerDisplayScore = document.querySelector("#computer-display > h4");
-        computerDisplayScore.textContent = `Player: ${computerScore}`;
+        const computerDisplayScore = document.querySelector("#computer-score");
+        computerDisplayScore.textContent = `Computer: ${computerScore}`;
     }));
 }
 
