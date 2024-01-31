@@ -1,64 +1,85 @@
-function getPlayerChoice() {
-    let playerChoice = prompt("ROCK    |    PAPER    |    SCISSORS");
-    return playerChoice.toUpperCase();
-}
-
-
-function getComputerChoice() {
+function getComputerMove() {
     let randomNumber = Math.floor(Math.random() * 3);
 
-    return (randomNumber === 0) ? "ROCK" :
-           (randomNumber === 1) ? "PAPER" :
-           (randomNumber === 2) ? "SCISSORS" : undefined;
+    return (randomNumber === 0) ? "rock" :
+           (randomNumber === 1) ? "paper" :
+           (randomNumber === 2) ? "scissors" : undefined;
 }
 
 
-function playRound(playerChoice = getPlayerChoice(), computerChoice = getComputerChoice()) {
-    if (playerChoice !== "ROCK" && playerChoice !== "PAPER" && playerChoice !== "SCISSORS") {
-        console.log("You made a TYPO! Let's play again!");
-        return playRound();
+function playRound(playerMove, computerMove = getComputerMove()) {
+    const playerDisplayImage = document.querySelector("#player-display > img");
+    playerDisplayImage.src = `images/${playerMove}-icon.png`;
+    const computerDisplayImage = document.querySelector("#computer-display > img");
+    computerDisplayImage.src = `images/${computerMove}-icon.png`;
+
+    const result = document.querySelector("#result");
+    const resultMessage = document.querySelector("#result-message");
+    
+    // If user changes the id of an item through devtools.
+    if (playerMove !== "rock" && playerMove !== "paper" && playerMove !== "scissors") {
+        result.textContent = "WTF";
+        resultMessage.textContent = "Just what did you do???";
+        return undefined;
     }
 
-    console.log("");
-    console.log(`Player: ${playerChoice}`);
-    console.log(`Computer: ${computerChoice}`);
-
-    if (playerChoice === computerChoice) {
-        console.log("It's a TIE! Let's play again!");
-        return playRound();
+    if (playerMove === computerMove) {
+        result.textContent = "It's a tie!";
+        resultMessage.textContent = `${playerMove} ties with ${computerMove}`;
+        return "tie";
     }
 
-    return playerChoice === "ROCK" && computerChoice === "SCISSORS" ||
-           playerChoice === "PAPER" && computerChoice === "ROCK" ||
-           playerChoice === "SCISSORS" && computerChoice === "PAPER";
+    if (playerMove === "rock" && computerMove === "scissors" ||
+    playerMove === "paper" && computerMove === "rock" ||
+    playerMove === "scissors" && computerMove === "paper") {
+        result.textContent = "You win!";
+        resultMessage.textContent = `${playerMove} beats ${computerMove}`;
+        return "player";
+    }
+
+    result.textContent = `You lose!`;
+    resultMessage.textContent = `${playerMove} is beaten by ${computerMove}`;
+    return "computer";
 }
 
 
 function game() {
-    const BEST_OF = 10;
-
-    console.log(`BEST-OF-${BEST_OF}`);
-    console.log("");
-
+    const winGoal = 5;
     let playerScore = 0,
         computerScore = 0;
 
-    while (playerScore < BEST_OF && computerScore < BEST_OF) {
-        let playerWon = playRound();
-        
-        if (playerWon) {
-            console.log("You WIN!");
-            playerScore++;
-        } else {
-            console.log("You LOSE!");
-            computerScore++;
+    const result = document.querySelector("#result");
+    const resultMessage = document.querySelector("#result-message");
+
+    const itens = document.querySelectorAll(".item");
+    itens.forEach(item => item.addEventListener('click', () => {
+        if (playerScore < winGoal && computerScore < winGoal) {
+            const winner = playRound(item.id);
+            switch (winner) {
+                case "player":
+                    playerScore++;
+                    break;
+                case "computer":
+                    computerScore++;
+                    break;
+            }
+
+            if (playerScore === winGoal) {
+                result.textContent = "YOU WON!!!!!";
+                resultMessage.textContent = "Congratulations!!! Reload the page to play again!";
+            }
+            else if (computerScore === winGoal) {
+                result.textContent = "YOU LOST...";
+                resultMessage.textContent = "Reload the page and try again!!";
+            }
         }
 
-        console.log(`Player ${playerScore} x ${computerScore} Computer`);
-    }
-
-    if (playerScore === BEST_OF) {
-        return "YOU BEAT THE COMPUTER! CONGRATULATIONS!!!";
-    }
-    return "THE COMPUTER WON! YOU SUCK LMAO..";
+        const playerDisplayScore = document.querySelector("#player-display > h4");
+        playerDisplayScore.textContent = `Player: ${playerScore}`;
+        const computerDisplayScore = document.querySelector("#computer-display > h4");
+        computerDisplayScore.textContent = `Player: ${computerScore}`;
+    }));
 }
+
+
+game();
